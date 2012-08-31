@@ -1,0 +1,45 @@
+<html>
+	<head>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+		<script src="jquery.autocomplete.js"></script>
+		<script>
+			$(document).ready(function() {
+				var nouns = [ "Arm", "Leg", "Cat", "Dog", "Dog in a helicopter", "Helicopters", "Allergy Medicine", "Quake II" ];
+				
+				$("#testAutocomplete").autocomplete({
+					"fnGetSuggestions": function(params) {
+						var query = params.query.toLowerCase();
+						var output = $.map(nouns, function(n) {
+							if(n.toLowerCase().indexOf(query) >= 0) {
+								// Matches the filter, return it in a suggestion/data pair.
+								return { suggestion: n, data: n };
+							}
+							else {
+								// Didn't match, don't return it.
+								return null;
+							}
+						});
+						return output;
+					}
+				});
+			});
+		</script>
+		<style>
+			.autocomplete-w1 {
+				margin-top: 5px;
+				margin-left: 3px;
+			}
+			.autocomplete {
+				outline: 1px solid #ccc;
+				background: white;
+			}
+			.autocomplete > .selected {
+				background: navy;
+				color: white;
+			}
+		</style>
+	</head>
+	<body>
+		<input id="testAutocomplete"/>
+	</body>
+</html>

@@ -252,7 +252,6 @@
 		},
 
 		getSuggestions: function (q) {
-
 			var cr, me;
 			cr = this.isLocal ? this.getSuggestionsLocal(q) : this.cachedResponse[q]; //dadeta this.options.isLocal ||
 			if (cr && $.isArray(cr.suggestions)) {
@@ -262,7 +261,19 @@
 			} else if (!this.isBadQuery(q)) {
 				me = this;
 				me.options.params.query = q;
-				$.get(this.serviceUrl, me.options.params, function (txt) { me.processResponse(txt); }, 'text');
+
+				if(me.options.fnGetSuggestions) {
+					var pairs = me.options.fnGetSuggestions(me.options.params);
+					var result = { query: q, suggestions: [], data: [] };
+					for(var i = 0; i < pairs.length; ++i) {
+						result.suggestions.push(pairs[i].suggestion);
+						result.data.push(pairs[i].data);
+					}
+					me.processResponse(JSON.stringify(result));
+				}
+				else {
+					$.get(this.serviceUrl, me.options.params, function (txt) { me.processResponse(txt); }, 'text');
+				}
 			}
 		},
 
