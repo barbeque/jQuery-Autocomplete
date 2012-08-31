@@ -253,7 +253,7 @@
 
 		getSuggestions: function (q) {
 			var cr, me;
-			cr = this.isLocal ? this.getSuggestionsLocal(q) : this.cachedResponse[q]; //dadeta this.options.isLocal ||
+			cr = this.isLocal ? this.getSuggestionsLocal(q) : this.cachedResponse[q];
 			if (cr && $.isArray(cr.suggestions)) {
 				this.suggestions = cr.suggestions;
 				this.data = cr.data;
